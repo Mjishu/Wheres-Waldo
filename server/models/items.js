@@ -9,6 +9,7 @@ const itemSchema = new Schema({
     xLow:{type:Number},
     yHigh: {type:Number},
     yLow:{type:Number},
+    spotted:{type:Boolean},
     gameBoard:{type:Schema.Types.ObjectId, ref:"gameBoard"},
 })
 

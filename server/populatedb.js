@@ -23,11 +23,12 @@ const userArgs = process.argv.slice(2);
     mongoose.connection.close();
   }
   
-  async function itemsCreate(index, image,name,yHigh,yLow,xHigh,xLow,gameBoard) {
+  async function itemsCreate(index, image,name,yHigh,yLow,xHigh,xLow,spotted,gameBoard) {
     const itemDetail = {image:image,
                         name:name,
                         yHigh:yHigh,yLow:yLow,
                         xHigh:xHigh, xLow:xLow,
+                        spotted:spotted,
                         gameBoard:gameBoard };
 
     const item = new Items(itemDetail);
@@ -48,7 +49,7 @@ const userArgs = process.argv.slice(2);
   async function createGameboard() {
     console.log("Adding Gameboard");
     await Promise.all([
-      gameBoardCreate("images/LOTR/SAF-LOTRrere.png", "LOTR search and find image")
+      gameBoardCreate(0,"images/LOTR/SAF-LOTRrere.png", "LOTR search and find image")
     ]);
   }
   
@@ -56,8 +57,8 @@ const userArgs = process.argv.slice(2);
   async function createItems(){
     console.log("adding items")
     await Promise.all([
-        itemsCreate(0,"images/LOTR/EOS.png","Eye of Sauron",90,45,1450,1400,gameBoards[0]),
-        itemsCreate(1,"images/LOTR/skully.png","Skully",440,400,575,550,gameBoards[0]),
-        itemsCreate(2,"images/LOTR/demonBlob.png","Demon Eyes",390,350,1450,1400,gameBoards[0]),
+        itemsCreate(0,"images/LOTR/EOS.png","Eye of Sauron",90,45,1450,1400,false,gameBoards[0]),
+        itemsCreate(1,"images/LOTR/skully.png","Skully",440,400,575,550,false,gameBoards[0]),
+        itemsCreate(2,"images/LOTR/demonBlob.png","Demon Eyes",390,350,1450,1400,false,gameBoards[0]),
     ])
   }

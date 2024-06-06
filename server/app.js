@@ -28,18 +28,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //*-------------------------------------------DB Connection
 mongoose.set("strictQuery", "false")
-const mongoDb = process.env.MONGOURL;
+const mongoDB = process.env.MONGOURL;
 
-mongoose.connect(mongoDb);
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "mongo connection error"));
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(mongoDB);
+}
 
 //? ------------------------------------------API calls
 app.get("/api", async(req,res)=>{
   try{
     const items = await Items.find().populate('gameBoard')
     const gameBoard = await GameBoard.find()
-    res.json(items, gameBoard)
+    res.json({items,gameBoard})
   }catch(error){
     res.status(500).json({message:"error fetching from db", error})
   }
