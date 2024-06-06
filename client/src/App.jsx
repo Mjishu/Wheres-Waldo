@@ -7,18 +7,34 @@ function App() {
   // const [lotr, setLotr] = React.useState() //! Get the data from the backend
 
 
-  function handleClick({pageX,pageY}){ //todo Gets location but how to load div at that location
+  function handleClick({pageX,pageY}){ //todo make a div around the clicked with dashed border?
     setIsClicked(!isClicked)
     setCoords({x:pageX, y:pageY})
+    console.log(`x:${pageX} | y: ${pageY}`)
+  }
+
+  function handleSubmit(id){
+    console.log(id)
+    setIsClicked(false)
   }
 
   return (
     <div className='content' /* onClick={handleClick} */>
-        <img src="/SAF-LOTRrere.png" alt="lotr search and find" onClick={handleClick}/>
+        <img className="main-image" src="/images/LOTR/SAF-LOTRrere.png" alt="lotr search and find" onClick={handleClick}/>
 
-        <div className="clicked">
-          {isClicked ? <Clicked name="Eye of Sauron" alt="Eye of Sauron image" image="/EOS.png" position={coords}/> : ""}
+        {isClicked && (<div 
+          className="clicked" 
+          style={{left:`${coords.x}px`, top:`${coords.y}px`}}
+          >
+           <Clicked 
+            name="Eye of Sauron" 
+            alt="Eye of Sauron image" 
+            image="/images/LOTR/EOS.png" 
+            handleSubmit={handleSubmit}
+            />
         </div>
+      
+      )}
     </div>
   )
 }

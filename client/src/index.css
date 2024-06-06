@@ -1,19 +1,18 @@
-img{
+.main-image{
     width: 75rem;
+    cursor: crosshair
 }
 
 .content{
     display: flex;
     justify-content: center;
-
 }
 
 .clicked{
     position: absolute;
-    top: 40rem;
     font-size: 1.5rem;
 }
-.item-holder button{
+.item-holder {
     display: flex;
     width: 15rem;
     justify-content: space-around;
@@ -23,6 +22,8 @@ img{
     border-radius: 10px;
     height: 3.5rem;
 }
+
+.item-holder{}
 
 .find-name{
     font-size: 1.25rem;
