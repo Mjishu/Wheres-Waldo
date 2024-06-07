@@ -46,6 +46,21 @@ app.get("/api", async(req,res)=>{
   }
 })
 
+app.post("/api/coords", async(req,res)=>{
+  try{
+      const info = {coords:req.body.coords, id:req.body.id}
+      
+      const itemFound = await Items.find({_id:info.id})
+      const dataCoords = {xLow: itemFound[0].xLow, xHigh:itemFound[0].xHigh, yLow:itemFound[0].yLow, yHigh: itemFound[0].yHigh}
+      if(info.coords.x >= dataCoords.xLow && info.coords.x <= dataCoords.xHigh){
+        if(info.coords.y >= dataCoords.yLow && info.coords.y <= dataCoords.yHigh)
+          {
+            res.json({message:"correct"})
+          }
+      }
+  }catch(err){res.status(500).json({message:"Error fetching item"})}
+})
+
 //* -----------------------------------------Error Handling
 app.use(function(req, res, next) {
   next(createError(404));

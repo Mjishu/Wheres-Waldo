@@ -41,22 +41,35 @@ function Game(){
         setLoading(false)
     },[backendData])
 
-    React.useEffect(()=>{
-        console.log(gameData && gameData.image)
-        console.log(itemData)
-    },[gameData,itemData])
+    // React.useEffect(()=>{
+    //     console.log(gameData && gameData.image)
+    //     console.log(itemData)
+    // },[gameData,itemData])
 
     //*-------------------------------------------------Game Logic
 
-    function handleClick({pageX,pageY}){ //todo make a div around the clicked with dashed border?
+    function handleClick({pageX,pageY}){ 
+        if (!isClicked){
+            setCoords({x:pageX, y:pageY})
+            console.log(`x:${pageX} | y: ${pageY}`)
+        }
         setIsClicked(!isClicked)
-        setCoords({x:pageX, y:pageY})
-        console.log(`x:${pageX} | y: ${pageY}`)
     }
     
-    function handleSubmit(id){
+    async function handleSubmit(id){
         console.log(id)
         setIsClicked(false)
+
+        const fetchParams = {
+            method:"POST",
+            headers:{'Content-Type':"application/json"},
+            body: JSON.stringify({coords, id})
+        } 
+
+        await fetch("/api/coords", fetchParams)
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(`Error:${error}`))
     }
     
     const searchMapped = itemData && itemData.map((item) => {
