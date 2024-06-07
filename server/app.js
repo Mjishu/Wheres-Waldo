@@ -55,7 +55,7 @@ app.post("/api/coords", async(req,res)=>{
       if(info.coords.x >= dataCoords.xLow && info.coords.x <= dataCoords.xHigh){
         if(info.coords.y >= dataCoords.yLow && info.coords.y <= dataCoords.yHigh)
           {
-            res.json({message:"correct"})
+            res.json({message:"correct", id:info.id})
           }
       }
   }catch(err){res.status(500).json({message:"Error fetching item"})}

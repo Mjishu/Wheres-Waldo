@@ -5,14 +5,15 @@ import { Link } from "react-router-dom";
 function Game(){
     const [isClicked, setIsClicked] = React.useState(false);
     const [coords, setCoords] = React.useState({x:0,y:0})
-    const [gameOver,setGameOver] = React.useState(false)
 
     //*-------------------------------------------------- API State
     const [backendData, setBackendData] = React.useState()
     const [gameData,setGameData] = React.useState()
     const [itemData,setItemData] = React.useState()
     const [loading,setLoading] = React.useState(true)
-
+    const [gameInfo,setGameInfo] = React.useState({
+        guesses: 0
+    }) 
     //?---------------------------------------------------API Calls
     const url = window.location.href;
     const split = url.split("/")
@@ -23,6 +24,7 @@ function Game(){
         .then(res => res.json())
         .then(data => setBackendData(data))
         .catch(error => console.error("error", error))
+        .finally(() => setLoading(false))
     },[])
     
     React.useEffect(() => {
@@ -38,13 +40,11 @@ function Game(){
             }
             setItemData(foundItems)
         }
-        setLoading(false)
     },[backendData])
 
-    // React.useEffect(()=>{
-    //     console.log(gameData && gameData.image)
-    //     console.log(itemData)
-    // },[gameData,itemData])
+    React.useEffect(()=>{
+        console.log(loading)
+    },[loading])
 
     //*-------------------------------------------------Game Logic
 
@@ -58,18 +58,21 @@ function Game(){
     
     async function handleSubmit(id){
         console.log(id)
+
+        setLoading(true)
         setIsClicked(false)
+        setGameInfo(prevInfo => ({...prevInfo, guesses: prevInfo.guesses +  1}))
 
         const fetchParams = {
             method:"POST",
             headers:{'Content-Type':"application/json"},
             body: JSON.stringify({coords, id})
         } 
-
         await fetch("/api/coords", fetchParams)
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(error => console.error(`Error:${error}`))
+        .finally(setLoading(false))
     }
     
     const searchMapped = itemData && itemData.map((item) => {
@@ -89,16 +92,24 @@ function Game(){
     
     return (
         <div className='content' /* onClick={handleClick} */>
-            <img className="main-image" src={gameData && gameData.image} alt={gameData && gameData.alt} onClick={handleClick}/>
-
-            {isClicked && (<div 
-            className="clicked" 
-            style={{left:`${coords.x}px`, top:`${coords.y}px`}}
-            >
-                {searchMapped}
+            <div className="game-items">
+                <img className="main-image" src={gameData && gameData.image} alt={gameData && gameData.alt} onClick={handleClick}/>
+                <Link to="/">Home</Link>
+                {gameInfo.guesses}
             </div>
+
+            {isClicked && (
+                <>
+                    <div className="clicked" 
+                    style={{left:`${coords.x+25}px`, top:`${coords.y+25}px`}}
+                    >
+                        {searchMapped}
+                    </div>
+                    <div className="clicked-circle" style={{ left:`${coords.x -12}px`, top:`${coords.y -12}px`}}></div>
+                </>
         )}
-        <Link to="/">Home</Link>
+        
+        
         </div>
   )
   

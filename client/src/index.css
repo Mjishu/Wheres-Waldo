@@ -39,3 +39,17 @@
 .homepage-image{
     width: 20rem;
 }
+
+.clicked-circle{
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: dotted rgb(184, 6, 6) 5px;
+    border-radius: 50%;
+}
+
+.game-items{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
