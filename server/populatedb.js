@@ -37,8 +37,8 @@ const userArgs = process.argv.slice(2);
     console.log(`Added item: ${name}`);
   }
   
-  async function gameBoardCreate(index,image, alt){
-    const gameboardDetails = {image:image, alt:alt}
+  async function gameBoardCreate(index,image, alt, name,credit){
+    const gameboardDetails = {image:image, alt:alt, name:name,credit:credit}
 
     const gameboard = new GameBoard(gameboardDetails);
     await gameboard.save();
@@ -49,7 +49,7 @@ const userArgs = process.argv.slice(2);
   async function createGameboard() {
     console.log("Adding Gameboard");
     await Promise.all([
-      gameBoardCreate(0,"images/LOTR/SAF-LOTRrere.png", "LOTR search and find image")
+      gameBoardCreate(0,"/images/LOTR/SAF-LOTRrere.png", "LOTR search and find image","LOTR Search and Find","Victor Beuren")
     ]);
   }
   
@@ -57,8 +57,8 @@ const userArgs = process.argv.slice(2);
   async function createItems(){
     console.log("adding items")
     await Promise.all([
-        itemsCreate(0,"images/LOTR/EOS.png","Eye of Sauron",90,45,1450,1400,false,gameBoards[0]),
-        itemsCreate(1,"images/LOTR/skully.png","Skully",440,400,575,550,false,gameBoards[0]),
-        itemsCreate(2,"images/LOTR/demonBlob.png","Demon Eyes",390,350,1450,1400,false,gameBoards[0]),
+        itemsCreate(0,"/images/LOTR/EOS.png","Eye of Sauron",90,45,1450,1400,false,gameBoards[0]),
+        itemsCreate(1,"/images/LOTR/skully.png","Skully",440,400,575,550,false,gameBoards[0]),
+        itemsCreate(2,"/images/LOTR/demonBlob.png","Demon Eyes",390,350,1450,1400,false,gameBoards[0]),
     ])
   }

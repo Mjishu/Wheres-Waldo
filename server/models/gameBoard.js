@@ -4,7 +4,9 @@ const Schema = mongoose.Schema;
 
 const gameBoardSchema = new Schema({
     image:{type:String},
-    alt:{type:String}
+    name:{type:String},
+    alt:{type:String},
+    credit:{type:String}
 })
 
 gameBoardSchema.virtual("url").get(function(){

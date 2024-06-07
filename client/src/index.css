@@ -21,9 +21,12 @@
     border: none;
     border-radius: 10px;
     height: 3.5rem;
+    background-color: hsla(219, 72%, 72%, 0.75);
 }
 
-.item-holder{}
+.item-holder:hover{
+    background-color: hsla(219,72%,72%,.9);
+}
 
 .find-name{
     font-size: 1.25rem;
@@ -31,4 +34,8 @@
 
 .find-image{
     width: 3rem;
+}
+
+.homepage-image{
+    width: 20rem;
 }

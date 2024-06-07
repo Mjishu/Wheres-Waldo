@@ -46,7 +46,6 @@ app.get("/api", async(req,res)=>{
   }
 })
 
-
 //* -----------------------------------------Error Handling
 app.use(function(req, res, next) {
   next(createError(404));
