@@ -13,6 +13,7 @@ const GameBoard = require("./models/gameBoard")
 //*--------------------------------------------Routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const { time } = require('console');
 
 const app = express();
 
@@ -59,6 +60,10 @@ app.post("/api/coords", async(req,res)=>{
           }
       }
   }catch(err){res.status(500).json({message:"Error fetching item"})}
+})
+
+app.get("/api/gametimer", async(req,res)=>{
+  const timer = date.now()
 })
 
 //* -----------------------------------------Error Handling

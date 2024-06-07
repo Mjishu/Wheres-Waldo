@@ -12,7 +12,9 @@ function Game(){
     const [itemData,setItemData] = React.useState()
     const [loading,setLoading] = React.useState(true)
     const [gameInfo,setGameInfo] = React.useState({
-        guesses: 0
+        gameWon: false,
+        guesses: 0,
+        correct: []
     }) 
     //?---------------------------------------------------API Calls
     const url = window.location.href;
@@ -42,9 +44,9 @@ function Game(){
         }
     },[backendData])
 
-    React.useEffect(()=>{
-        console.log(loading)
-    },[loading])
+    React.useEffect(() => {
+        checkWin()
+    },[gameInfo.correct,itemData])
 
     //*-------------------------------------------------Game Logic
 
@@ -54,6 +56,12 @@ function Game(){
             console.log(`x:${pageX} | y: ${pageY}`)
         }
         setIsClicked(!isClicked)
+    }
+
+    function checkWin(){
+        if (itemData && itemData.length > 0 && gameInfo.correct.length === itemData.length) { 
+            setGameInfo(prevData => ({ ...prevData, gameWon: true }));
+        }
     }
     
     async function handleSubmit(id){
@@ -70,7 +78,7 @@ function Game(){
         } 
         await fetch("/api/coords", fetchParams)
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => setGameInfo(prevGameInfo => ({...prevGameInfo, correct: [...prevGameInfo.correct, data]})))
         .catch(error => console.error(`Error:${error}`))
         .finally(setLoading(false))
     }
@@ -89,9 +97,13 @@ function Game(){
     if(loading){
         return <p>Loading....</p>
     }
+
+    function playAgain(){
+        setGameInfo(prevInfo => ({...prevInfo, correct:[], gameWon:false, guesses:0}))
+    }
     
     return (
-        <div className='content' /* onClick={handleClick} */>
+        <div className='content'>
             <div className="game-items">
                 <img className="main-image" src={gameData && gameData.image} alt={gameData && gameData.alt} onClick={handleClick}/>
                 <Link to="/">Home</Link>
@@ -106,11 +118,18 @@ function Game(){
                         {searchMapped}
                     </div>
                     <div className="clicked-circle" style={{ left:`${coords.x -12}px`, top:`${coords.y -12}px`}}></div>
-                </>
-        )}
-        
-        
+                </> )}
+           
+            {gameInfo.gameWon && ( 
+                <div className="gameOver">
+                    <h1>You won!</h1>
+                    <h4>Time took: </h4>
+                    <button onClick={playAgain}>Play Again</button>
+                    <Link to="/">Go Home</Link>
+                </div>
+            )}
         </div>
+        
   )
   
 }
