@@ -1,5 +1,5 @@
 import React from 'react'
-import Clicked from './components/Clicked';
+import Clicked from './components/generalComponents/Clicked';
 
 function App() { 
   const [isClicked, setIsClicked] = React.useState(false);
