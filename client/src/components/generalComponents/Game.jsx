@@ -80,14 +80,14 @@ function Game(){
     }
     
     const searchMapped = itemData && itemData.map((item,index) => {
-        let isSeen = false;
-        if (
-            gameInfo.correct && 
-            gameInfo.correct.length > index && 
-            gameInfo.correct[index].seen  
-        ) {
-            isSeen = true;
-        }
+        // let isSeen = false;
+        // if (
+        //     gameInfo.correct && 
+        //     gameInfo.correct.length > index && 
+        //     gameInfo.correct[index].seen  
+        // ) {
+        //     isSeen = true;
+        // }
         return <Clicked
         key={item._id}
         id={item._id}
@@ -95,7 +95,7 @@ function Game(){
         alt={item.name} 
         image={item.image} 
         handleSubmit={handleSubmit}
-        isSeen={isSeen} //! Fix this ? how do i send if correct.seen === true but of that certain id
+        itemSeen={item.seen ? true : false}
         />
     })
 
