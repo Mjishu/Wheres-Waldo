@@ -57,3 +57,7 @@
 .game-over-screen{
     background: crimson;
 }
+
+.seen{
+    border: red 1px solid ;
+}

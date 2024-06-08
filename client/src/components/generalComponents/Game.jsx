@@ -45,7 +45,10 @@ function Game(){
     },[backendData])
 
     React.useEffect(() => {
-        checkWin()
+        if (itemData && itemData.length > 0 && gameInfo.correct.length === itemData.length) { 
+            setGameInfo(prevData => ({ ...prevData, gameWon: true }));}
+        console.log(gameInfo.correct)
+        // gameInfo.correct.length >=1 && console.log("gameinfo",gameInfo.correct[0].seen)
     },[gameInfo.correct,itemData])
 
     //*-------------------------------------------------Game Logic
@@ -57,13 +60,6 @@ function Game(){
         }
         setIsClicked(!isClicked)
     }
-
-    function checkWin(){
-        if (itemData && itemData.length > 0 && gameInfo.correct.length === itemData.length) { 
-            setGameInfo(prevData => ({ ...prevData, gameWon: true }));
-        }
-    }
-    
     async function handleSubmit(id){
         console.log(id)
 
@@ -78,12 +74,20 @@ function Game(){
         } 
         await fetch("/api/coords", fetchParams)
         .then(res => res.json())
-        .then(data => setGameInfo(prevGameInfo => ({...prevGameInfo, correct: [...prevGameInfo.correct, data]})))
+        .then(data => setGameInfo(prevGameInfo => ({...prevGameInfo, correct: [...prevGameInfo.correct,{...data,seen:true}]})))
         .catch(error => console.error(`Error:${error}`))
         .finally(setLoading(false))
     }
     
-    const searchMapped = itemData && itemData.map((item) => {
+    const searchMapped = itemData && itemData.map((item,index) => {
+        let isSeen = false;
+        if (
+            gameInfo.correct && 
+            gameInfo.correct.length > index && 
+            gameInfo.correct[index].seen  
+        ) {
+            isSeen = true;
+        }
         return <Clicked
         key={item._id}
         id={item._id}
@@ -91,6 +95,7 @@ function Game(){
         alt={item.name} 
         image={item.image} 
         handleSubmit={handleSubmit}
+        isSeen={isSeen} //! Fix this ? how do i send if correct.seen === true but of that certain id
         />
     })
 
@@ -99,7 +104,7 @@ function Game(){
     }
 
     function playAgain(){
-        setGameInfo(prevInfo => ({...prevInfo, correct:[], gameWon:false, guesses:0}))
+        setGameInfo({correct:[], gameWon:false, guesses:0})
     }
     
     return (
