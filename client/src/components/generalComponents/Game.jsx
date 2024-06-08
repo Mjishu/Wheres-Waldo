@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 
 function Game(){
     const [isClicked, setIsClicked] = React.useState(false);
-    const [coords, setCoords] = React.useState({x:0,y:0})
-
+    const [coords, setCoords] = React.useState({x:0,y:0});
     //*-------------------------------------------------- API State
-    const [backendData, setBackendData] = React.useState()
-    const [gameData,setGameData] = React.useState()
-    const [itemData,setItemData] = React.useState()
-    const [loading,setLoading] = React.useState(true)
+    const [backendData, setBackendData] = React.useState();
+    const [gameData,setGameData] = React.useState();
+    const [itemData,setItemData] = React.useState();
+    const [loading,setLoading] = React.useState(true);
+
     const [gameInfo,setGameInfo] = React.useState({
         gameWon: false,
         guesses: 0,
@@ -48,7 +48,8 @@ function Game(){
         if (itemData && itemData.length > 0 && gameInfo.correct.length === itemData.length) { 
             setGameInfo(prevData => ({ ...prevData, gameWon: true }));}
         console.log(gameInfo.correct)
-        // gameInfo.correct.length >=1 && console.log("gameinfo",gameInfo.correct[0].seen)
+
+        localStorage.setItem("spottedItems", JSON.stringify(gameInfo.correct))
     },[gameInfo.correct,itemData])
 
     //*-------------------------------------------------Game Logic
@@ -74,20 +75,20 @@ function Game(){
         } 
         await fetch("/api/coords", fetchParams)
         .then(res => res.json())
-        .then(data => setGameInfo(prevGameInfo => ({...prevGameInfo, correct: [...prevGameInfo.correct,{...data,seen:true}]})))
+        .then(data => setGameInfo(prevGameInfo => ({...prevGameInfo, correct: [...prevGameInfo.correct,{...data,seen:true}]}))) //? is this where i use localstorage
         .catch(error => console.error(`Error:${error}`))
         .finally(setLoading(false))
     }
     
     const searchMapped = itemData && itemData.map((item,index) => {
-        // let isSeen = false;
-        // if (
-        //     gameInfo.correct && 
-        //     gameInfo.correct.length > index && 
-        //     gameInfo.correct[index].seen  
-        // ) {
-        //     isSeen = true;
-        // }
+        let isSeen = false;
+        if (
+            gameInfo.correct && 
+            gameInfo.correct.length > index && 
+            gameInfo.correct[index].seen  
+        ) {
+            isSeen = true;
+        }
         return <Clicked
         key={item._id}
         id={item._id}
@@ -95,7 +96,7 @@ function Game(){
         alt={item.name} 
         image={item.image} 
         handleSubmit={handleSubmit}
-        itemSeen={item.seen ? true : false}
+        isSeen={isSeen} //! Fix this ? how do i send if correct.seen === true but of that certain id
         />
     })
 
@@ -104,7 +105,8 @@ function Game(){
     }
 
     function playAgain(){
-        setGameInfo({correct:[], gameWon:false, guesses:0})
+        setGameInfo({correct:[], gameWon:false, guesses:0}) 
+        localStorage.clear()
     }
     
     return (
