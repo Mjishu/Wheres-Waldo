@@ -2,6 +2,8 @@ import React from "react";
 import Clicked from "./Clicked";
 import { Link } from "react-router-dom";
 
+//!! HEIGHT ON IMAGE GOES ABOVE IMAGE?
+
 function Game(){
     const [isClicked, setIsClicked] = React.useState(false);
     const [coords, setCoords] = React.useState({x:0,y:0});
@@ -53,13 +55,20 @@ function Game(){
 
     //*-------------------------------------------------Game Logic
 
-    function handleClick({pageX,pageY}){ //todo Normalize mouse coords
-        if (!isClicked){
-            setCoords({x:pageX, y:pageY})
-            console.log(`x:${pageX} | y: ${pageY}`)
+    function handleClick(event){ //todo Normalize mouse coords
+        const rect = event.target.getBoundingClientRect();
+        const offsetX = rect.left;
+        const offsetY = rect.top;
+
+        const mouseX = event.pageX - offsetX
+        const mouseY = event.pageY - offsetY
+
+        if(!isClicked){
+            setCoords({x:mouseX, y:mouseY})
+            console.log(`x:${mouseX} | y: ${mouseY}`)
         }
-        setIsClicked(!isClicked)
     }
+    
     async function handleSubmit(id){
         console.log(`submitted id ${id}` )
 
@@ -108,9 +117,10 @@ function Game(){
     
     return (
         <div className='content Game-bg'>
+            <h2 className="h2 game-header sans-dm">{gameData && gameData.name}</h2>
             <div className="game-items">
                 <img className="main-image" src={gameData && gameData.image} alt={gameData && gameData.alt} onClick={handleClick}/>
-                <Link to="/">Home</Link>
+                <Link to="/" className="h6 home-link">Home</Link>
             </div>
 
             {isClicked && (
@@ -128,7 +138,7 @@ function Game(){
                     <h1>You won!</h1>
                     <h4>Time took: </h4>
                     <button onClick={playAgain}>Play Again</button>
-                    <Link to="/">Go Home</Link>
+                    <Link to="/" className="h6 home-link">Go Home</Link>
                 </div>
             )}
         </div>

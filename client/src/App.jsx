@@ -29,7 +29,7 @@ function App() {
         alt="Game Image"
         onClick={()=>handleClick(game._id)}
         />
-        <h3>{game.name}</h3>
+        <h3 className='homepage-game-name p sans-dm'>{game.name}</h3>
        </div>
       )
   })
@@ -39,8 +39,12 @@ function App() {
   }
 
   return (
-    <div className='content' >
+    <div className='content home-page' >
+      <h1 className="title h2 sans-dm">Wheres Waldo</h1>
+      <h3 className="Tab h3 sans-dm">Games</h3>
+      <div className="app-home-games ">
         {gameBoardMapped}
+      </div>
     </div>
   )
 }

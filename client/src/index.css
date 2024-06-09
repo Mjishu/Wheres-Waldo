@@ -2,8 +2,18 @@
     --primary-color: #556B2F;
     --secondary-color:#374127 ;
     --light-color:#B0C095 ;
-    --gradient: linear-gradient(#556B2F,#A6D15C )
+    --gradient: linear-gradient(#556B2F,#A6D15C );
+    --black-color: #282B25;
+    
+    --h1: 80px ;
+    --h2: 64px;
+    --h3: 51px;
+    --h4: 41px;
+    --h5: 32px;
+    --h6: 26px;
+    --p:21px
 }
+
 
 body{
     margin: 0;
@@ -12,8 +22,25 @@ body{
 
 .main-image{
     width: 75rem;
-    cursor: crosshair
+    cursor: crosshair;
+    border-radius: 10px;
 }
+
+@font-face { /* Not working properly it seems */
+    font-family: "Fjord";
+    src: url("../public/fonts/FjordOne-Regular.ttf") format('ttf');
+}
+
+@font-face {
+    font-family: "Sans-DM";
+    src: url("../public/fonts/DMSans-VariableFont_opsz\,wght.ttf") format('ttf');
+}
+
+.fjord{
+    font-family: 'Fjord', sans-serif;
+}
+
+.sans-dm{font-family: "Sans-DM", sans-serif;}
 
 #root{
     background-image: url('../public/Styling/blob-scene-haikei 1.svg');
@@ -35,7 +62,7 @@ body{
 }
 
 .game-items img{
-    padding-top: 7.5rem;
+    margin-top: 7.5rem;
 }
 
 .clicked{
@@ -67,7 +94,9 @@ body{
 }
 
 .homepage-image{
-    width: 20rem;
+    width: 29.125rem;
+    height: 15.44rem;
+    border-radius: 10px;
 }
 
 .clicked-circle{
@@ -84,10 +113,53 @@ body{
     align-items: center;
 }
 
-.game-over-screen{
-    background: crimson;
-} 
+.app-home-games{
+    display: flex;
+    flex-direction: column;
+    padding-top: 5rem;
+}
 
-.clicked-border{
-    border: red 1px solid ;
+.home-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.h1{font-size: var(--h1);}
+.h2{font-size: var(--h2);}
+.h3{font-size: var(--h3);}
+.h4{font-size: var(--h4);}
+.h5{font-size: var(--h5);}
+.h6{font-size: var(--h6);}
+.p{font-size: var(--p);}
+
+
+.title{
+    color: var(--black-color);
+}
+
+.Tab{
+    color: var(--secondary-color);
+}
+
+.homepage-game-name{
+    color: var(--black-color);
+    rotate: 270deg;
+    position: relative;
+    right: 16rem;
+    bottom: 23.5rem;
+}
+
+.game-header{
+    position: absolute;
+    top: -2rem;
+    color: var(--black-color);
+}
+
+.home-link{
+    text-decoration: none;
+    color: var(--light-color);
+}
+.home-link:hover{
+    color: var(--black-color);
 }
