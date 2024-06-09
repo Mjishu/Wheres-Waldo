@@ -1,11 +1,41 @@
+:root{
+    --primary-color: #556B2F;
+    --secondary-color:#374127 ;
+    --light-color:#B0C095 ;
+    --gradient: linear-gradient(#556B2F,#A6D15C )
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
 .main-image{
     width: 75rem;
     cursor: crosshair
 }
 
+#root{
+    background-image: url('../public/Styling/blob-scene-haikei 1.svg');
+    background-repeat: no-repeat;
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+}
+
 .content{
     display: flex;
     justify-content: center;
+}
+.Game-bg{
+    background-image: url("../public/Styling/layered-waves-haikei\ 1.svg");
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+}
+
+.game-items img{
+    padding-top: 7.5rem;
 }
 
 .clicked{
@@ -56,8 +86,8 @@
 
 .game-over-screen{
     background: crimson;
-}
+} 
 
-.seen{
+.clicked-border{
     border: red 1px solid ;
 }

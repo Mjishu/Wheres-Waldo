@@ -13,7 +13,6 @@ function Game(){
 
     const [gameInfo,setGameInfo] = React.useState({
         gameWon: false,
-        guesses: 0,
         correct: []
     }) 
     //?---------------------------------------------------API Calls
@@ -45,16 +44,16 @@ function Game(){
     },[backendData])
 
     React.useEffect(() => {
-        if (itemData && itemData.length > 0 && gameInfo.correct.length === itemData.length) { 
+        if (itemData && itemData.length > 0 && gameInfo.correct.length === itemData.length) { ``
             setGameInfo(prevData => ({ ...prevData, gameWon: true }));}
         console.log(gameInfo.correct)
 
-        localStorage.setItem("spottedItems", JSON.stringify(gameInfo.correct))
+        console.log(itemData)
     },[gameInfo.correct,itemData])
 
     //*-------------------------------------------------Game Logic
 
-    function handleClick({pageX,pageY}){ 
+    function handleClick({pageX,pageY}){ //todo Normalize mouse coords
         if (!isClicked){
             setCoords({x:pageX, y:pageY})
             console.log(`x:${pageX} | y: ${pageY}`)
@@ -62,11 +61,10 @@ function Game(){
         setIsClicked(!isClicked)
     }
     async function handleSubmit(id){
-        console.log(id)
+        console.log(`submitted id ${id}` )
 
         setLoading(true)
         setIsClicked(false)
-        setGameInfo(prevInfo => ({...prevInfo, guesses: prevInfo.guesses +  1}))
 
         const fetchParams = {
             method:"POST",
@@ -75,20 +73,19 @@ function Game(){
         } 
         await fetch("/api/coords", fetchParams)
         .then(res => res.json())
-        .then(data => setGameInfo(prevGameInfo => ({...prevGameInfo, correct: [...prevGameInfo.correct,{...data,seen:true}]}))) //? is this where i use localstorage
+        .then(data => (
+            setGameInfo(prevGameInfo => ({...prevGameInfo, correct: [...prevGameInfo.correct,{id:data.id,...data}]})))
+        )
         .catch(error => console.error(`Error:${error}`))
         .finally(setLoading(false))
+
+        const found = gameInfo.correct.find({id:id})
+        console.log(`found${found}`)
     }
     
-    const searchMapped = itemData && itemData.map((item,index) => {
-        let isSeen = false;
-        if (
-            gameInfo.correct && 
-            gameInfo.correct.length > index && 
-            gameInfo.correct[index].seen  
-        ) {
-            isSeen = true;
-        }
+    const searchMapped = itemData && itemData.map((item) => {
+        const isClicked = gameInfo.clicked && gameInfo.clicked.some(clickedItem => (` ids are${clickedItem.id} + ${item.id}`)); //! this isnt even getting called, handleSbumit is the only place i can think but idk how io use it here
+
         return <Clicked
         key={item._id}
         id={item._id}
@@ -96,7 +93,8 @@ function Game(){
         alt={item.name} 
         image={item.image} 
         handleSubmit={handleSubmit}
-        isSeen={isSeen} //! Fix this ? how do i send if correct.seen === true but of that certain id
+        isSeen={item.spotted}
+        className={isClicked ? "clicked-border" : ""}
         />
     })
 
@@ -105,16 +103,14 @@ function Game(){
     }
 
     function playAgain(){
-        setGameInfo({correct:[], gameWon:false, guesses:0}) 
-        localStorage.clear()
+        setGameInfo({correct:[], gameWon:false}) 
     }
     
     return (
-        <div className='content'>
+        <div className='content Game-bg'>
             <div className="game-items">
                 <img className="main-image" src={gameData && gameData.image} alt={gameData && gameData.alt} onClick={handleClick}/>
                 <Link to="/">Home</Link>
-                {gameInfo.guesses}
             </div>
 
             {isClicked && (
@@ -140,4 +136,8 @@ function Game(){
   )
   
 }
-  export default Game
+
+export default Game
+
+
+//todo How do i get the id of the item thats in local storage to match the ids that are put towards clicked and then if those ids match set that item to have red border? Maybe do it in the map function instead?
