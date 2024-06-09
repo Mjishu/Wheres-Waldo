@@ -12,6 +12,7 @@ function Game(){
     const [gameData,setGameData] = React.useState();
     const [itemData,setItemData] = React.useState();
     const [loading,setLoading] = React.useState(true);
+    const[unclikcedItems,setUnclickedItems]= React.useState()
 
     const [gameInfo,setGameInfo] = React.useState({
         gameWon: false,
@@ -67,6 +68,7 @@ function Game(){
             setCoords({x:mouseX, y:mouseY})
             console.log(`x:${mouseX} | y: ${mouseY}`)
         }
+        setIsClicked(!isClicked)
     }
     
     async function handleSubmit(id){
@@ -88,12 +90,12 @@ function Game(){
         .catch(error => console.error(`Error:${error}`))
         .finally(setLoading(false))
 
-        const found = gameInfo.correct.find({id:id})
-        console.log(`found${found}`)
+        // const found = gameInfo.correct.find({id:id})
+        // console.log(`found${found}`)
     }
     
     const searchMapped = itemData && itemData.map((item) => {
-        const isClicked = gameInfo.clicked && gameInfo.clicked.some(clickedItem => (` ids are${clickedItem.id} + ${item.id}`)); //! this isnt even getting called, handleSbumit is the only place i can think but idk how io use it here
+        const itemIsClicked = gameInfo.clicked && gameInfo.clicked.some(clickedItem => (` ids are${clickedItem.id} + ${item.id}`)); //! this isnt even getting called, handleSbumit is the only place i can think but idk how io use it here
 
         return <Clicked
         key={item._id}
@@ -103,7 +105,7 @@ function Game(){
         image={item.image} 
         handleSubmit={handleSubmit}
         isSeen={item.spotted}
-        className={isClicked ? "clicked-border" : ""}
+        className={itemIsClicked ? "clicked-border" : ""}
         />
     })
 
