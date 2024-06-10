@@ -4,10 +4,9 @@ const Schema = mongoose.Schema;
 
 const timerSchema = new Schema({
     date: {type:Date},
-    post:{type:Schema.Types.ObjectId, ref:"gameboard"},
-    startTime:{type:Number},
-    endTime:{type:Number},
-    usernmae:{type:String}
+    gameBoard:{type:Schema.Types.ObjectId, ref:"gameboard"},
+    time:{type:Number},
+    username:{type:String}
 })
 
 timerSchema.virtual("url").get(function(){

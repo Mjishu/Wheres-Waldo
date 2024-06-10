@@ -1,6 +1,7 @@
 import React from "react";
 import Clicked from "./Clicked";
 import { Link } from "react-router-dom";
+import AddLeaderboard from "./AddLeaderboard";
 
 function Game(){
     const [isClicked, setIsClicked] = React.useState(false);
@@ -13,7 +14,9 @@ function Game(){
 
     const [gameInfo,setGameInfo] = React.useState({
         gameWon: false,
-        correct: []
+        correct: [],
+        username: "",
+        timer: 0
     }) 
     //?---------------------------------------------------API Calls
     const url = window.location.href;
@@ -45,19 +48,23 @@ function Game(){
         }
     },[backendData])
 
-    React.useEffect(() => { //Todo put the end timer here
+    React.useEffect(() => { //* Checks win condition
         const localItems = JSON.parse(localStorage.getItem("items"))
         const itemsSpotted = new Set()
         for (const item of localItems){
             item.spotted && itemsSpotted.add(item.name)
         }
         
-        if(itemData && itemData.length > 0 && itemsSpotted.size === itemData.length){
+        if(itemData && itemData.length > 0 && itemsSpotted.size === itemData.length){ 
             setGameInfo(prevData => ({...prevData, gameWon:true}))
         }    
+      
     },[gameInfo.correct,itemData])
 
+
+
     //*-------------------------------------------------Game Logic
+
 
     function handleClick(event){ 
         const rect = event.target.getBoundingClientRect();
@@ -124,13 +131,40 @@ function Game(){
     }
 
     function playAgain(){
-        setGameInfo({correct:[], gameWon:false})
+        setGameInfo({correct:[], gameWon:false, username:""})
         
         const localItems =JSON.parse(localStorage.getItem("items"))
         for (const item of localItems){
             item.spotted = false
         }
         localStorage.setItem("items", JSON.stringify(localItems))
+    }
+
+    function handleLeaderboardSubmit(e){
+        e.preventDefault()
+        console.log(gameInfo.username, gameInfo.username.length);
+
+        const fetchParams = {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({username: gameInfo.username, gameBoard: gameData._id, time:gameInfo.timer})
+        }
+
+        fetch("/api/leaderboard/add",fetchParams)
+        .then(res => res.json)
+        .then(data => console.log(`data: ${data}`))
+        .catch(err => console.error(err))
+        
+        playAgain();
+    }
+
+    function handleLeaderboardChange(e){
+        const {name,value} = e.target;
+        setGameInfo(prevGameInfo => {
+            return {...prevGameInfo,[name]: value}
+        })
     }
     
     return (
@@ -152,13 +186,15 @@ function Game(){
             </div>
            
             {gameInfo.gameWon && ( 
-                <div className="gameOver">
-                    <h1>You won!</h1>
-                    <h4>Time took: </h4>
-                    <button onClick={playAgain}>Play Again</button>
-                    <Link to="/" className="h6 home-link">Go Home</Link>
-                </div>
+                // <div className="gameOver">
+                //     <h1>You won!</h1>
+                //     <h4>Time took: </h4>
+                //     <button onClick={playAgain}>Play Again</button>
+                //     <Link to="/" className="h6 home-link">Go Home</Link>
+                // </div>
+                <AddLeaderboard time={0.00} playAgain={playAgain} handleSubmit={handleLeaderboardSubmit} handleChange={handleLeaderboardChange} username={gameInfo.username}/>
             )}
+
         </div>
         
   )

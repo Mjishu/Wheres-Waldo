@@ -63,11 +63,33 @@ app.post("/api/coords", async(req,res)=>{
   }catch(err){res.status(500).json({message:"Error fetching item"})}
 })
 
-app.get("/api/gametimer", async(req,res)=>{
-  const timer = date.now()
+//?-----------------------------------------Timer
+
+app.post("/api/timer", async(req,res)=>{
+  const body = req.body;
+  console.log(body)
 })
 
-//? Another api for endtimer? 
+//*------------------------------------------LeaderBoard
+const dateStyle = new Intl.DateTimeFormat("en-us", {
+  dateStyle: "full"
+})
+
+app.post("/api/leaderboard/add", async(req,res) => {
+  try{
+    const body = req.body
+    // console.log(body)
+
+    const newSubmission = new Timer({
+      date: dateStyle.format(new Date()),
+      gameBoard: req.body.gameBoard,
+      username: body.username,
+      time: req.body.time || 0.00
+    })
+    // await newSubmission.save() //! Turn on when timer works
+    res.json({message: "created entry"})
+  }catch(err){res.status(500).json({message:"Error Creating submission",err})}
+})
 
 //* -----------------------------------------Error Handling
 app.use(function(req, res, next) {

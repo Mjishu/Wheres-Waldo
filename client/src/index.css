@@ -2,7 +2,6 @@
     --primary-color: #556B2F;
     --secondary-color:#374127 ;
     --light-color:#B0C095 ;
-    --gradient: linear-gradient(#556B2F,#A6D15C );
     --black-color: #282B25;
     
     --h1: 80px ;
@@ -164,4 +163,43 @@ body{
 }
 .home-link:hover{
     color: var(--black-color);
+}
+
+.add-leaderboard{
+    position: absolute;
+    background: var(--light-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: 15px;
+    top: 17.5rem;
+    display: flex;
+    flex-direction: column;
+    width: 15rem;
+    align-items: center;
+    height: 15rem;
+}
+
+.add-leaderboard * {
+    width: fit-content;
+}
+
+.add-leaderboard input{
+    border-radius: 10px;
+    border:none;
+}
+
+.leaderboard-buttons{
+    display: flex;
+    width: 10rem;
+    justify-content: space-around;
+}
+
+.leaderboard-buttons button{
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+
+}
+
+.leaderboard-buttons button:hover{
+    background-color: var(--primary-color);
 }
