@@ -45,7 +45,7 @@ function Game(){
         }
     },[backendData])
 
-    React.useEffect(() => {
+    React.useEffect(() => { //Todo put the end timer here
         const localItems = JSON.parse(localStorage.getItem("items"))
         const itemsSpotted = new Set()
         for (const item of localItems){
@@ -53,12 +53,8 @@ function Game(){
         }
         
         if(itemData && itemData.length > 0 && itemsSpotted.size === itemData.length){
-            console.log("won!")
             setGameInfo(prevData => ({...prevData, gameWon:true}))
         }    
-
-        console.log("Local storage;",JSON.parse(localStorage.getItem("items")))
-        console.log(itemData ,"item data")
     },[gameInfo.correct,itemData])
 
     //*-------------------------------------------------Game Logic
@@ -73,7 +69,7 @@ function Game(){
 
         if(!isClicked){
             setCoords({x:mouseX, y:mouseY})
-            console.log(`x:${mouseX} | y: ${mouseY}`)
+            // console.log(`x:${mouseX} | y: ${mouseY}`)
         }
         setIsClicked(!isClicked)
     }
@@ -108,20 +104,6 @@ function Game(){
     }
     
     const localItem = JSON.parse(localStorage.getItem(`items`)) || []
-
-    // const searchMapped = itemData && itemData.map((item) => {
-    //     const storedItem = localItem.find(localStoredItem => localStoredItem.id === item._id)
-    //     console.log(storedItem)
-    //     if(storedItem && storedItem.spotted === false){
-    //             return <Clicked
-    //             key={item._id}
-    //             id={item._id}
-    //             name={item.name} 
-    //             alt={item.name} 
-    //             image={item.image} 
-    //             handleSubmit={handleSubmit}
-    //             />
-    //     }})
     const localMapped = localItem.map((item) =>{
         if(!item.spotted){
             return <Clicked
@@ -184,6 +166,3 @@ function Game(){
 }
 
 export default Game
-
-
-//todo How do i get the id of the item thats in local storage to match the ids that are put towards clicked and then if those ids match set that item to have red border? Maybe do it in the map function instead?

@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 //?------------------------------------------- Models
 const Items = require("./models/items")
 const GameBoard = require("./models/gameBoard")
+const Timer = require("./models/timer")
 
 //*--------------------------------------------Routers
 const indexRouter = require('./routes/index');
@@ -65,6 +66,8 @@ app.post("/api/coords", async(req,res)=>{
 app.get("/api/gametimer", async(req,res)=>{
   const timer = date.now()
 })
+
+//? Another api for endtimer? 
 
 //* -----------------------------------------Error Handling
 app.use(function(req, res, next) {
