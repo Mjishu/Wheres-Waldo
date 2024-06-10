@@ -2,8 +2,6 @@ import React from "react";
 import Clicked from "./Clicked";
 import { Link } from "react-router-dom";
 
-//!! HEIGHT ON IMAGE GOES ABOVE IMAGE?
-
 function Game(){
     const [isClicked, setIsClicked] = React.useState(false);
     const [coords, setCoords] = React.useState({x:0,y:0});
@@ -42,21 +40,30 @@ function Game(){
                     foundItems.push(item)
                 }
             }
+            localStorage.setItem("items", JSON.stringify(foundItems))
             setItemData(foundItems)
         }
     },[backendData])
 
     React.useEffect(() => {
-        if (itemData && itemData.length > 0 && gameInfo.correct.length === itemData.length) { ``
-            setGameInfo(prevData => ({ ...prevData, gameWon: true }));}
-        console.log(gameInfo.correct)
+        const localItems = JSON.parse(localStorage.getItem("items"))
+        const itemsSpotted = new Set()
+        for (const item of localItems){
+            item.spotted && itemsSpotted.add(item.name)
+        }
+        
+        if(itemData && itemData.length > 0 && itemsSpotted.size === itemData.length){
+            console.log("won!")
+            setGameInfo(prevData => ({...prevData, gameWon:true}))
+        }    
 
-        console.log(itemData)
+        console.log("Local storage;",JSON.parse(localStorage.getItem("items")))
+        console.log(itemData ,"item data")
     },[gameInfo.correct,itemData])
 
     //*-------------------------------------------------Game Logic
 
-    function handleClick(event){ //todo Normalize mouse coords
+    function handleClick(event){ 
         const rect = event.target.getBoundingClientRect();
         const offsetX = rect.left;
         const offsetY = rect.top;
@@ -90,31 +97,58 @@ function Game(){
         .catch(error => console.error(`Error:${error}`))
         .finally(setLoading(false))
 
-        // const found = gameInfo.correct.find({id:id})
-        // console.log(`found${found}`)
+        
+        const localItems = JSON.parse(localStorage.getItem("items"))
+        for(const item of localItems){
+            if(item._id === id){
+                item.spotted = true
+            }
+        }
+        localStorage.setItem("items", JSON.stringify(localItems))
     }
     
-    const searchMapped = itemData && itemData.map((item) => {
-        const itemIsClicked = gameInfo.clicked && gameInfo.clicked.some(clickedItem => (` ids are${clickedItem.id} + ${item.id}`)); //! this isnt even getting called, handleSbumit is the only place i can think but idk how io use it here
+    const localItem = JSON.parse(localStorage.getItem(`items`)) || []
 
-        return <Clicked
-        key={item._id}
-        id={item._id}
-        name={item.name} 
-        alt={item.name} 
-        image={item.image} 
-        handleSubmit={handleSubmit}
-        isSeen={item.spotted}
-        className={itemIsClicked ? "clicked-border" : ""}
-        />
+    // const searchMapped = itemData && itemData.map((item) => {
+    //     const storedItem = localItem.find(localStoredItem => localStoredItem.id === item._id)
+    //     console.log(storedItem)
+    //     if(storedItem && storedItem.spotted === false){
+    //             return <Clicked
+    //             key={item._id}
+    //             id={item._id}
+    //             name={item.name} 
+    //             alt={item.name} 
+    //             image={item.image} 
+    //             handleSubmit={handleSubmit}
+    //             />
+    //     }})
+    const localMapped = localItem.map((item) =>{
+        if(!item.spotted){
+            return <Clicked
+            key={item._id}
+            id={item._id}
+            name={item.name} 
+            alt={item.name} 
+            image={item.image} 
+            handleSubmit={handleSubmit}
+            isSeen={item.spotted}
+            />
+        }
     })
+
 
     if(loading){
         return <p>Loading....</p>
     }
 
     function playAgain(){
-        setGameInfo({correct:[], gameWon:false}) 
+        setGameInfo({correct:[], gameWon:false})
+        
+        const localItems =JSON.parse(localStorage.getItem("items"))
+        for (const item of localItems){
+            item.spotted = false
+        }
+        localStorage.setItem("items", JSON.stringify(localItems))
     }
     
     return (
@@ -129,7 +163,7 @@ function Game(){
                     <div className="clicked" 
                     style={{left:`${coords.x}px`, top:`${coords.y}px`}}
                     >
-                        {searchMapped}
+                        {localMapped}
                     </div>
                     <div className="clicked-circle" style={{ left:`${coords.x -12.5}px`, top:`${coords.y + 100 }px`}}></div>
                 </> )}

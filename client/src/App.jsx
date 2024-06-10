@@ -6,6 +6,7 @@ function App() {
   const [backendData,setBackendData] = React.useState();
   const [loading, setLoading] = React.useState(true)
   const navigate = useNavigate()
+ 
 
   React.useEffect(()=>{
     fetch("/api")
