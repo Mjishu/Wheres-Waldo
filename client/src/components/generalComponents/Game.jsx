@@ -12,7 +12,6 @@ function Game(){
     const [gameData,setGameData] = React.useState();
     const [itemData,setItemData] = React.useState();
     const [loading,setLoading] = React.useState(true);
-    const[unclikcedItems,setUnclickedItems]= React.useState()
 
     const [gameInfo,setGameInfo] = React.useState({
         gameWon: false,
@@ -24,6 +23,7 @@ function Game(){
     const gameId = split[split.length - 1]
     
     React.useEffect(()=>{
+        //todo Add cleanup 
         fetch("/api")
         .then(res => res.json())
         .then(data => setBackendData(data))
@@ -123,17 +123,17 @@ function Game(){
             <div className="game-items">
                 <img className="main-image" src={gameData && gameData.image} alt={gameData && gameData.alt} onClick={handleClick}/>
                 <Link to="/" className="h6 home-link">Home</Link>
-            </div>
 
-            {isClicked && (
+                {isClicked && (
                 <>
                     <div className="clicked" 
-                    style={{left:`${coords.x+25}px`, top:`${coords.y+25}px`}}
+                    style={{left:`${coords.x}px`, top:`${coords.y}px`}}
                     >
                         {searchMapped}
                     </div>
-                    <div className="clicked-circle" style={{ left:`${coords.x -12}px`, top:`${coords.y -12}px`}}></div>
+                    <div className="clicked-circle" style={{ left:`${coords.x -12.5}px`, top:`${coords.y + 100 }px`}}></div>
                 </> )}
+            </div>
            
             {gameInfo.gameWon && ( 
                 <div className="gameOver">
