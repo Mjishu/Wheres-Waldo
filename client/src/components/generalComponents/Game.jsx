@@ -2,6 +2,8 @@ import React from "react";
 import Clicked from "./Clicked";
 import { Link } from "react-router-dom";
 import AddLeaderboard from "./AddLeaderboard";
+import Timer from "./Timer";
+import ItemComponent from "../ItemComponent";
 
 function Game(){
     const [isClicked, setIsClicked] = React.useState(false);
@@ -124,6 +126,14 @@ function Game(){
             />
         }
     })
+    const itemsMapped = localItem.map(item => {
+        return <ItemComponent 
+            image={item.image}
+            key={item._id}
+            name={item.name}
+            spotted={item.spotted ? true : false}
+        />
+    })
 
 
     if(loading){
@@ -184,16 +194,14 @@ function Game(){
                     <div className="clicked-circle" style={{ left:`${coords.x -12.5}px`, top:`${coords.y + 100 }px`}}></div>
                 </> )}
             </div>
+            {/* <Timer timer={gameInfo.timer}/>  */}
            
             {gameInfo.gameWon && ( 
-                // <div className="gameOver">
-                //     <h1>You won!</h1>
-                //     <h4>Time took: </h4>
-                //     <button onClick={playAgain}>Play Again</button>
-                //     <Link to="/" className="h6 home-link">Go Home</Link>
-                // </div>
                 <AddLeaderboard time={0.00} playAgain={playAgain} handleSubmit={handleLeaderboardSubmit} handleChange={handleLeaderboardChange} username={gameInfo.username}/>
             )}
+            <div className="item-shown">
+                {itemsMapped}
+            </div>
 
         </div>
         

@@ -203,3 +203,26 @@ body{
 .leaderboard-buttons button:hover{
     background-color: var(--primary-color);
 }
+
+.item-shown{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 8rem;
+    top: 12rem;
+}
+
+.item-component img{
+    width: 3rem;
+}
+.item-component{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.spotted{
+    text-decoration: line-through;
+    text-decoration-thickness: .25rem;
+}
