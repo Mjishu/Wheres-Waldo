@@ -14,7 +14,6 @@ const Timer = require("./models/timer")
 //*--------------------------------------------Routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const { time } = require('console');
 
 const app = express();
 
@@ -90,9 +89,11 @@ app.post("/api/leaderboard/add", async(req,res) => {
   }catch(err){res.status(500).json({message:"Error Creating submission",err})}
 })
 
-app.get("/api/leaderboard", async(req,res)=>{
+
+app.post("/api/leaderboard", async(req,res)=>{
   try{
-      res.json({message:"leaderboard called"})
+      const leaderboardItems = await Timer.find({gameBoard:req.body.id}).populate("gameBoard").sort({time:1})
+      res.json({leaderboardItems})
   }catch(err){res.status(500).json({message:"error fetching leaderboard"})}
 })
 

@@ -1,11 +1,13 @@
 import React from 'react'
 import {useNavigate} from "react-router-dom"
+import Leaderboard from './components/generalComponents/Leaderboard';
 
 
 function App() { 
   const [backendData,setBackendData] = React.useState();
   const [loading, setLoading] = React.useState(true)
   const navigate = useNavigate()
+  const [leaderboardTab,setLeaderboardTab] = React.useState()
  
 
   React.useEffect(()=>{
@@ -16,7 +18,7 @@ function App() {
     .finally(() => setLoading(false))
   },[])
 
-  React.useEffect(()=>{ backendData && console.log(backendData)},[backendData])
+  // React.useEffect(()=>{ backendData && console.log(backendData)},[backendData])
 
   function handleClick(id){
     navigate(`/gameboard/${id}`)
@@ -35,6 +37,22 @@ function App() {
       )
   })
 
+  //*-------------------------------------------------------LeaderBoard tabs 
+  function handleTabChange(id){
+    setLeaderboardTab(id)
+  }
+
+  const leaderboardSelectorMapped = backendData && backendData.gameBoard.map((map) => {
+    return (
+      <button
+        onClick={()=>handleTabChange(map._id)}
+        key={map._id}
+        id={map._id}
+        className='tablist-item'
+      >{map.name}</button>
+    )
+  })
+
   if(loading){
     return <p>Loading...</p>
   }
@@ -45,6 +63,13 @@ function App() {
       <h3 className="Tab h3 sans-dm">Games</h3>
       <div className="app-home-games ">
         {gameBoardMapped}
+      </div>
+      <h3 className='sans-dm h3 Tab'>Leaderboard</h3>
+      <div className="app-home-leaderboard ">
+        <div className='tablist-map'>
+          {leaderboardSelectorMapped}
+        </div>
+          <Leaderboard id={leaderboardTab}/>
       </div>
     </div>
   )

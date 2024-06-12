@@ -49,7 +49,7 @@ const userArgs = process.argv.slice(2);
   async function createGameboard() {
     console.log("Adding Gameboard");
     await Promise.all([
-      gameBoardCreate(0,"/images/LOTR/SAF-LOTRrere.png", "LOTR search and find image","LOTR Search and Find","Victor Beuren")
+      gameBoardCreate(0,"/images/Kitchen/kitchen-image", "Kitchen search and find image","Kitchen","Leia Pentskofer")
     ]);
   }
   
@@ -57,8 +57,8 @@ const userArgs = process.argv.slice(2);
   async function createItems(){
     console.log("adding items")
     await Promise.all([
-        itemsCreate(0,"/images/LOTR/EOS.png","Eye of Sauron",90,45,1450,1400,false,gameBoards[0]),
-        itemsCreate(1,"/images/LOTR/skully.png","Skully",440,400,575,550,false,gameBoards[0]),
-        itemsCreate(2,"/images/LOTR/demonBlob.png","Demon Eyes",390,350,1450,1400,false,gameBoards[0]),
+        itemsCreate(0,"/images/Kitchen/kitchen-chili.png","Chili",90,45,1450,1400,false,gameBoards[0]),
+        itemsCreate(1,"/images/Kitchen/kitchen-cutter.png","Cookie Cutter",440,400,575,550,false,gameBoards[0]),
+        itemsCreate(2,"/images/Kitchen/kitchen-spoon.png","Spoon",390,350,1450,1400,false,gameBoards[0]),
     ])
   }

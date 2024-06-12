@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const timerSchema = new Schema({
     date: {type:Date},
-    gameBoard:{type:Schema.Types.ObjectId, ref:"gameboard"},
+    gameBoard:{type:Schema.Types.ObjectId, ref:"gameBoard"},
     time:{type:Number},
     username:{type:String}
 })

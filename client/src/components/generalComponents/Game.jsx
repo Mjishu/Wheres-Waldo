@@ -195,7 +195,7 @@ function Game(){
         <div className='content Game-bg'>
             <h2 className="h2 game-header sans-dm">{gameData && gameData.name}</h2>
             <div className="game-items">
-                <img className="main-image" src={gameData && gameData.image} alt={gameData && gameData.alt} onClick={handleClick}/>
+                <img className="main-image" id={gameData && gameData.name} src={gameData && gameData.image} alt={gameData && gameData.alt} onClick={handleClick}/>
                 <Link to="/" className="h6 home-link">Home</Link>
 
                 {isClicked && (
