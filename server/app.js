@@ -78,7 +78,6 @@ const dateStyle = new Intl.DateTimeFormat("en-us", {
 app.post("/api/leaderboard/add", async(req,res) => {
   try{
     const body = req.body
-    // console.log(body)
 
     const newSubmission = new Timer({
       date: dateStyle.format(new Date()),
@@ -86,9 +85,15 @@ app.post("/api/leaderboard/add", async(req,res) => {
       username: body.username,
       time: req.body.time || 0.00
     })
-    // await newSubmission.save() //! Turn on when timer works
+    await newSubmission.save() 
     res.json({message: "created entry"})
   }catch(err){res.status(500).json({message:"Error Creating submission",err})}
+})
+
+app.get("/api/leaderboard", async(req,res)=>{
+  try{
+      res.json({message:"leaderboard called"})
+  }catch(err){res.status(500).json({message:"error fetching leaderboard"})}
 })
 
 //* -----------------------------------------Error Handling

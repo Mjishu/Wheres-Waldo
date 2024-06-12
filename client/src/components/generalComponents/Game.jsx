@@ -18,7 +18,8 @@ function Game(){
         gameWon: false,
         correct: [],
         username: "",
-        timer: 0
+        timer: 0,
+        running: true
     }) 
     //?---------------------------------------------------API Calls
     const url = window.location.href;
@@ -59,6 +60,7 @@ function Game(){
         
         if(itemData && itemData.length > 0 && itemsSpotted.size === itemData.length){ 
             setGameInfo(prevData => ({...prevData, gameWon:true}))
+            stopTimer()
         }    
       
     },[gameInfo.correct,itemData])
@@ -141,13 +143,15 @@ function Game(){
     }
 
     function playAgain(){
-        setGameInfo({correct:[], gameWon:false, username:""})
+        setGameInfo({correct:[], gameWon:false, username:"", timer: 0})
         
+
         const localItems =JSON.parse(localStorage.getItem("items"))
         for (const item of localItems){
             item.spotted = false
         }
         localStorage.setItem("items", JSON.stringify(localItems))
+        startTimer()
     }
 
     function handleLeaderboardSubmit(e){
@@ -176,6 +180,16 @@ function Game(){
             return {...prevGameInfo,[name]: value}
         })
     }
+
+    //* -------------------------------------------Timer functions
+    function startTimer(){
+        setGameInfo(prevInfo => ({...prevInfo, running: true}))
+    }
+    function stopTimer(){
+        setGameInfo(prevInfo => ({...prevInfo, running: false}))
+    }
+
+    //?--------------------------------------------- Return
     
     return (
         <div className='content Game-bg'>
@@ -194,10 +208,10 @@ function Game(){
                     <div className="clicked-circle" style={{ left:`${coords.x -12.5}px`, top:`${coords.y + 100 }px`}}></div>
                 </> )}
             </div>
-            {/* <Timer timer={gameInfo.timer}/>  */}
+            <Timer timer={gameInfo.timer} running={gameInfo.running} setInfo={setGameInfo}/> 
            
             {gameInfo.gameWon && ( 
-                <AddLeaderboard time={0.00} playAgain={playAgain} handleSubmit={handleLeaderboardSubmit} handleChange={handleLeaderboardChange} username={gameInfo.username}/>
+                <AddLeaderboard time={gameInfo.timer} playAgain={playAgain} handleSubmit={handleLeaderboardSubmit} handleChange={handleLeaderboardChange} username={gameInfo.username}/>
             )}
             <div className="item-shown">
                 {itemsMapped}

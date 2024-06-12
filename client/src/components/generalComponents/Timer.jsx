@@ -1,31 +1,18 @@
 import React from 'react'
 
-function Timer(props) {
-    let startTime = props.timer;
-    const[elapsedTime,setElapsedTime] = React.useState();
-    // let currentTime = 0;
-    let paused = true;
-    let intervalId;
+function Timer(props) { 
+    React.useEffect(()=>{
+      let intervalId
+      if(props.running){
+        intervalId = setInterval(() => props.setInfo(prevInfo => ({...prevInfo, timer: prevInfo.timer + 1})), 100)
+      }
+      return () => clearInterval(intervalId)
+    },[props.running])
 
-    if(paused){
-        paused =false;
-        startTime - Date.now() - elapsedTime;
-        intervalId = setInterval(updateTime,1000)
-    }
-    if(!paused){
-        paused = true;
-        setElapsedTime(Date.now() - startTime);
-        clearInterval(intervalId)
-    }
-
-    function updateTime(){
-        setElapsedTime(Date.now() - startTime)
-    }
-    
-    React.useEffect(()=> {console.log(elapsedTime)}, [elapsedTime])
+    const seconds = (props.timer/10).toFixed(2) 
 
   return (
-    <div>Timer</div>
+    <div>{seconds}seconds</div>
   )
 }
 
