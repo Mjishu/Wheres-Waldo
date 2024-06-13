@@ -6,7 +6,7 @@ function Leaderboard(props) {
     const [loading,setLoading] = React.useState(true)
 
 
-    React.useEffect(()=>{ // todo Set a max to the amount it grabs(probably 5)
+    React.useEffect(()=>{ // todo Set a max to the amount it grabs(probably 5) prob just do this by getting first 5 items and mapping those
         fetch("/api/leaderboard",{method:"POST",headers:{"Content-Type":"application/json"}, body:JSON.stringify({id:props.id})}) //? why doesnt this send id
         .then(res => res.json())
         .then(data=> setLeaderboardData(data.leaderboardItems))

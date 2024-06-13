@@ -3,6 +3,7 @@
     --secondary-color:#374127 ;
     --light-color:176,192,149 ;
     --black-color: #282B25;
+    --black-color-hsla:90,8%,16%;
     
     --h1: 80px ;
     --h2: 64px;
@@ -25,6 +26,9 @@ body{
     cursor: crosshair;
     border-radius: 10px;
     margin-top: 7.5rem;
+    box-shadow: 1px 2px 2px hsla(210, 3%, 14%, 0.333),
+    2px 4px 4px hsla(210, 4%, 11%, 0.333),
+    3px 6px 6px hsla(210, 3%, 13%, 0.333);
 }
 
 @font-face { /* Not working properly it seems */
@@ -102,6 +106,10 @@ body{
     width: 29.125rem;
     height: 15.44rem;
     border-radius: 10px;
+    box-shadow: 
+    1px 2px 2px hsla(210, 3%, 14%, 0.333),
+      2px 4px 4px hsla(210, 4%, 11%, 0.333),
+      3px 6px 6px hsla(210, 3%, 13%, 0.333);
 }
 
 .clicked-circle{
@@ -121,6 +129,7 @@ body{
 .app-home-games{
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .home-page{
@@ -158,6 +167,7 @@ body{
     position: absolute;
     top: -2rem;
     color: var(--black-color);
+    
 }
 
 .home-link{

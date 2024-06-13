@@ -92,7 +92,7 @@ app.post("/api/leaderboard/add", async(req,res) => {
 
 app.post("/api/leaderboard", async(req,res)=>{
   try{
-      const leaderboardItems = await Timer.find({gameBoard:req.body.id}).populate("gameBoard").sort({time:1})
+      const leaderboardItems = await Timer.find({gameBoard:req.body.id}).limit(5).populate("gameBoard").sort({time:1})
       res.json({leaderboardItems})
   }catch(err){res.status(500).json({message:"error fetching leaderboard"})}
 })
