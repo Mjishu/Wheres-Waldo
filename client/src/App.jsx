@@ -60,16 +60,18 @@ function App() {
   return (
     <div className='content home-page' >
       <h1 className="title h2 sans-dm">Wheres Waldo</h1>
-      <h3 className="Tab h3 sans-dm">Games</h3>
-      <div className="app-home-games ">
-        {gameBoardMapped}
-      </div>
-      <h3 className='sans-dm h3 Tab'>Leaderboard</h3>
-      <div className="app-home-leaderboard ">
-        <div className='tablist-map'>
-          {leaderboardSelectorMapped}
+      <div className="games-info">
+        <div className="app-home-games ">
+        <h3 className="Tab h3 sans-dm">Games</h3>
+          {gameBoardMapped}
         </div>
-          <Leaderboard id={leaderboardTab}/>
+        <div className="app-home-leaderboard ">
+        <h3 className='sans-dm h3 Tab'>Leaderboard</h3>
+          <div className='tablist-map'>
+            {leaderboardSelectorMapped}
+          </div>
+            <Leaderboard id={leaderboardTab}/>
+        </div>
       </div>
     </div>
   )
