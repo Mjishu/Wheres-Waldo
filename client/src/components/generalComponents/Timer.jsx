@@ -12,7 +12,7 @@ function Timer(props) {
     const seconds = (props.timer/10).toFixed(2) 
 
   return (
-    <div>{seconds}seconds</div>
+    <div className="h6 timer sans-dm">{seconds} seconds</div>
   )
 }
 

@@ -1,13 +1,12 @@
 import React from 'react'
 
-//todo Make a tab system that grabs the name of each map and sends that id to backend to populate the leaderboard with those ids matching
 
 function Leaderboard(props) {
     const [leaderboardData, setLeaderboardData] = React.useState([])
     const [loading,setLoading] = React.useState(true)
 
 
-    React.useEffect(()=>{
+    React.useEffect(()=>{ // todo Set a max to the amount it grabs(probably 5)
         fetch("/api/leaderboard",{method:"POST",headers:{"Content-Type":"application/json"}, body:JSON.stringify({id:props.id})}) //? why doesnt this send id
         .then(res => res.json())
         .then(data=> setLeaderboardData(data.leaderboardItems))

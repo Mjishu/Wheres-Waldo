@@ -48,7 +48,7 @@ function App() {
         onClick={()=>handleTabChange(map._id)}
         key={map._id}
         id={map._id}
-        className='tablist-item'
+        className='tablist-item fjord'
       >{map.name}</button>
     )
   })
@@ -62,15 +62,15 @@ function App() {
       <h1 className="title h2 sans-dm">Wheres Waldo</h1>
       <div className="games-info">
         <div className="app-home-games ">
-        <h3 className="Tab h3 sans-dm">Games</h3>
+          <h3 className="Tab h3 sans-dm">Games</h3>
           {gameBoardMapped}
         </div>
         <div className="app-home-leaderboard ">
-        <h3 className='sans-dm h3 Tab'>Leaderboard</h3>
+          <h3 className='sans-dm h3 Tab'>Leaderboard</h3>
           <div className='tablist-map'>
             {leaderboardSelectorMapped}
           </div>
-            <Leaderboard id={leaderboardTab}/>
+          <Leaderboard id={leaderboardTab}/>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 :root{
     --primary-color: #556B2F;
     --secondary-color:#374127 ;
-    --light-color:#B0C095 ;
+    --light-color:176,192,149 ;
     --black-color: #282B25;
     
     --h1: 80px ;
@@ -17,6 +17,7 @@
 body{
     margin: 0;
     padding: 0;
+    height: 100vh;
 }
 
 .main-image{
@@ -28,12 +29,12 @@ body{
 
 @font-face { /* Not working properly it seems */
     font-family: "Fjord";
-    src: url("../public/fonts/FjordOne-Regular.ttf") format('ttf');
+    src: url("../public/fonts/FjordOne-Regular.ttf") format('truetype');
 }
 
 @font-face {
     font-family: "Sans-DM";
-    src: url("../public/fonts/DMSans-VariableFont_opsz\,wght.ttf") format('ttf');
+    src: url("../public/fonts/DMSans-VariableFont_opsz\,wght.ttf") format('truetype');
 }
 
 .fjord{
@@ -69,6 +70,9 @@ body{
 .clicked{
     position: absolute;
     font-size: 1.5rem;
+    background-color: rgba(var(--light-color),0.6);
+    border-radius: 10px;
+    margin-left: 1.5rem;
 }
 .item-holder {
     display: flex;
@@ -77,13 +81,13 @@ body{
     align-items: center;
     gap: 1.5rem;
     border: none;
+    background: transparent;
     border-radius: 10px;
     height: 3.5rem;
-    background-color: hsla(219, 72%, 72%, 0.75);
 }
 
 .item-holder:hover{
-    background-color: hsla(219,72%,72%,.9);
+    background-color: rgba(var(--light-color),0.95);
 }
 
 .find-name{
@@ -117,7 +121,6 @@ body{
 .app-home-games{
     display: flex;
     flex-direction: column;
-    padding-top: 5rem;
 }
 
 .home-page{
@@ -159,7 +162,7 @@ body{
 
 .home-link{
     text-decoration: none;
-    color: var(--light-color);
+    color: rgba(var(--light-color));
 }
 .home-link:hover{
     color: var(--black-color);
@@ -167,7 +170,7 @@ body{
 
 .add-leaderboard{
     position: absolute;
-    background: var(--light-color);
+    background: rgba(var(--light-color));
     border: 1px solid var(--secondary-color);
     border-radius: 15px;
     top: 17.5rem;
@@ -231,9 +234,18 @@ body{
     display: flex;
     flex-direction: column;
     height: fit-content;
-    border: var(--black-color) 1px solid;
-    border-radius: 10px;
+    border-bottom: var(--black-color) 3px solid;
     align-items: center;
+    padding: .5rem;
+    margin: 0;
+}
+
+
+.leaderboard-item .user-info h5,
+.leaderboard-item .user-info h6,
+.leaderboard-item p {
+    margin: 0; 
+    padding: 0; 
 }
 
 .user-info{
@@ -261,6 +273,7 @@ body{
     flex-direction: row;
     justify-content: center;
     width: 25rem;
+    gap: 1rem;
 }
 
 .tablist-item{
@@ -274,12 +287,24 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: .5rem 0;
+}
+
+.app-home-leaderboard:last-child{
+    gap: 1rem;
+    /* background-color: red; */
 }
 
 .games-info{ /* todo switch this to grid */
-    display: flex;
+    display: grid;
     width: 70rem;
-    justify-content: space-around;
+    grid-template-columns: 1fr 1fr;
     position: relative;
     left: 17.5rem;
+}
+
+.timer{
+    position: absolute;
+    right: 5rem;
+    top: 12.5rem;
 }
