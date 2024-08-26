@@ -17,13 +17,9 @@ const Timer = require("./models/timer")
 const app = express();
 
 //?------------------------------------------- view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 const allowedOrigins = [
   "http://localhost:5173",
   "https://wheres-waldo-seven.vercel.app",
-  "*"
 ]
 
 const corsOptions = {
@@ -38,6 +34,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((err, req, res, next) => {
+  if (err.message === "Not allowed by CORS") {
+    res.status(403).json({ message: `Cors error: ${err.message}` })
+  } else {
+    next(err)
+  }
+})
 
 //*-------------------------------------------DB Connection
 mongoose.set("strictQuery", "false")
@@ -109,6 +113,11 @@ app.post("/api/leaderboard", async (req, res) => {
     res.json({ leaderboardItems })
   } catch (err) { res.status(500).json({ message: "error fetching leaderboard" }) }
 })
+
+app.use((req, res, next) => {
+  console.log('Received request from origin:', req.headers.origin);
+  next();
+});
 
 //* -----------------------------------------Error Handling
 app.use(function (req, res, next) {
