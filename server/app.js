@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 require("dotenv").config()
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 //?------------------------------------------- Models
 const Items = require("./models/items")
@@ -19,6 +20,18 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://wheres-waldo-seven.vercel.app/"
+]
+
+const corsOptions = {
+  origin: allowedOrigins,
+  credentials: true,
+  optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
