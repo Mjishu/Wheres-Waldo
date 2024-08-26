@@ -22,7 +22,8 @@ app.set('view engine', 'jade');
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://wheres-waldo-seven.vercel.app/"
+  "https://wheres-waldo-seven.vercel.app",
+  "*"
 ]
 
 const corsOptions = {
