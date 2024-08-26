@@ -6,6 +6,11 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
+  "proxy": {
+    "/api": {
+      "target": "https://mjis-wheres-waldo.fly.dev"
+    }
+  },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
