@@ -3,6 +3,10 @@
         {
             "source": "/api/:path*",
             "destination": "https://mjis-wheres-waldo.fly.dev/:path*"
+        },
+        {
+            "source": "/api/:path*/",
+            "destination": "https://mjis-wheres-waldo.fly.dev/:path*/"
         }
     ]
 }
