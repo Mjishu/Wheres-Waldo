@@ -35,14 +35,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((err, req, res, next) => {
-  if (err.message === "Not allowed by CORS") {
-    res.status(403).json({ message: `Cors error: ${err.message}` })
-  } else {
-    next(err)
-  }
-})
-
 //*-------------------------------------------DB Connection
 mongoose.set("strictQuery", "false")
 const mongoDB = process.env.MONGOURL;
@@ -113,11 +105,6 @@ app.post("/api/leaderboard", async (req, res) => {
     res.json({ leaderboardItems })
   } catch (err) { res.status(500).json({ message: "error fetching leaderboard" }) }
 })
-
-app.use((req, res, next) => {
-  console.log('Received request from origin:', req.headers.origin);
-  next();
-});
 
 //* -----------------------------------------Error Handling
 app.use(function (req, res, next) {
