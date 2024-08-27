@@ -28,7 +28,7 @@ function Game() {
 
     React.useEffect(() => {
         //todo Add cleanup 
-        fetch("/api")
+        fetch("https://mjis-wheres-waldo.fly.dev/api")
             .then(res => res.json())
             .then(data => setBackendData(data))
             .catch(error => console.error("error", error))
@@ -97,7 +97,7 @@ function Game() {
             headers: { 'Content-Type': "application/json" },
             body: JSON.stringify({ coords, id })
         }
-        await fetch("/api/coords", fetchParams)
+        await fetch("https://mjis-wheres-waldo.fly.dev/api/coords", fetchParams)
             .then(res => res.json())
             .then(data => (
                 setGameInfo(prevGameInfo => ({ ...prevGameInfo, correct: [...prevGameInfo.correct, { id: data.id, ...data }] })))
@@ -167,7 +167,7 @@ function Game() {
             body: JSON.stringify({ username: gameInfo.username, gameBoard: gameData._id, time: gameInfo.timer })
         }
 
-        fetch("/api/leaderboard/add", fetchParams)
+        fetch("https://mjis-wheres-waldo.fly.dev/api/leaderboard/add", fetchParams)
             .then(res => res.json)
             .then(data => console.log(`data: ${data}`))
             .catch(err => console.error(err))
