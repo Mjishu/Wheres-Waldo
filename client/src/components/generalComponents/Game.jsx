@@ -1,6 +1,6 @@
 import React from "react";
 import Clicked from "./Clicked";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AddLeaderboard from "./AddLeaderboard";
 import Timer from "./Timer";
 import ItemComponent from "../ItemComponent";
@@ -13,6 +13,7 @@ function Game() {
     const [gameData, setGameData] = React.useState();
     const [itemData, setItemData] = React.useState();
     const [loading, setLoading] = React.useState(true);
+    const navigate = useNavigate();
 
     const [gameInfo, setGameInfo] = React.useState({
         gameWon: false,
@@ -87,8 +88,6 @@ function Game() {
     }
 
     async function handleSubmit(id) {
-        console.log(`submitted id ${id}`)
-
         setLoading(true)
         setIsClicked(false)
 
@@ -157,7 +156,6 @@ function Game() {
 
     function handleLeaderboardSubmit(e) {
         e.preventDefault()
-        console.log(gameInfo.username, gameInfo.username.length);
 
         const fetchParams = {
             method: "POST",
@@ -172,7 +170,7 @@ function Game() {
             .then(data => console.log(`data: ${data}`))
             .catch(err => console.error(err))
 
-        playAgain();
+        navigate("/")
     }
 
     function handleLeaderboardChange(e) {
@@ -194,7 +192,7 @@ function Game() {
 
     return (
         <div className='content Game-bg'>
-            <h2 className="h2 game-header sans-dm">{gameData && gameData.name}</h2>
+            <h2 className="h2 game-header sans-dm" onClick={() => navigate("/")}>{gameData && gameData.name}</h2>
             <div className="game-items">
                 <img className="main-image" id={gameData && gameData.name} src={gameData && gameData.image} alt={gameData && gameData.alt} onClick={handleClick} />
                 <Link to="/" className="h6 home-link">Home</Link>
